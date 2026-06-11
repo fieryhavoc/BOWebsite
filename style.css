@@ -1,3 +1,5 @@
+/* deze css is gemaakt door Anouar */
+
 html, body { /* zorg ervoor dat de html en body elementen de volledige hoogte van het scherm innemen */
     margin: 0; /* verwijder de defeault margin van de browser */
     padding: 0; /* verwijder de defeault padding van de browser */
@@ -30,33 +32,12 @@ html, body { /* zorg ervoor dat de html en body elementen de volledige hoogte va
     text-align: center;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.container {
+.container { /* gasverbruik sectie */
     background-color: #f0f0f0;
     width: 80%;
     max-width: 420px;
     padding: 20px;
-    min-height: 200px;
+    min-height: 200px; /* verhoog de minimum hoogte van de container */
     margin: 0 auto 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

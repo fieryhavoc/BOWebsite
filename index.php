@@ -1,3 +1,30 @@
+<!-- deze index.html is gemaakt door Anouar -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Inc Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-logo">
+            <img src="logo.png" alt="logo" height="54px">
+        </div>
+        <h2>Dashboard</h2> 
+    </div>
+
+    <div class="container">
+        <h2>Mijn Gasverbruik</h2>
+     
+    </div>
+</body>
+</html>
+
+<!-- deze index.php is gemaakt door Opdracht -->
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,3 +51,7 @@
   <?php include_once 'footer.php'; ?>
 </body>
 </html>
+
+
+
+

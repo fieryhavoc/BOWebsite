@@ -1,0 +1,44 @@
+/* deze css is gemaakt door Anouar */
+
+html, body { /* zorg ervoor dat de html en body elementen de volledige hoogte van het scherm innemen */
+    margin: 0; /* verwijder de defeault margin van de browser */
+    padding: 0; /* verwijder de defeault padding van de browser */
+}
+
+.header {
+    width: 100%;
+    max-width: none; /* zorg ervoor dat de header de volledige breedte van het scherm inneemt */
+    margin: 0;
+    background-color: #69cf67;
+    color: white;
+    padding: 20px 25px; /* verhoog de padding voor een grotere header */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    display: grid; 
+    place-items: center; 
+    position: relative; /* maak de header relatief gepositioneerd zodat het logo absoluut gepositioneerd kan worden binnen de header */
+}
+
+.header-logo {
+    position: absolute; /* positioneer het logo absoluut binnen de header */
+    left: 25px; 
+    top: 50%; /* plaats het logo precies in de header */
+    transform: translateY(-50%); /* verticaal centreren van het logo */
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 26px; /* verhoog het lettertype voor een grotere header */
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.container { /* gasverbruik sectie */
+    background-color: #f0f0f0;
+    width: 80%;
+    max-width: 420px;
+    padding: 20px;
+    min-height: 200px; /* verhoog de minimum hoogte van de container */
+    margin: 0 auto 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

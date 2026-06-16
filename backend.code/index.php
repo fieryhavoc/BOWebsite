@@ -30,7 +30,8 @@
     
     <?php include_once 'footer.php'; ?>
 
-    <script src="frontend.code/grafieken.js"></script>
+    <script src="../frontend.code/api.js"></script>
+    <script src="../frontend.code/grafieken.js"></script>
 </body>
 
 </html>

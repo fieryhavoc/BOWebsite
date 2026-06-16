@@ -3,17 +3,8 @@
 <?php include 'header.php'; ?>
 
 <main>
-    </div>
-        <div class="container">
-        <h2>Mijn Gasverbruik</h2>
-
-    </div>
+</div>
 </main>
-
-<?php include 'footer.php'; ?>
-
-
-<!-- deze index.php is gemaakt door Opdracht -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,15 +22,15 @@
 <body>
     <?php include_once 'header.php'; ?>
     <main class="container">
-        <section class="item"><?php include_once 'includes/item_tijd.php'; ?></section>
-        <section class="item"><?php include_once 'includes/item_gas.php'; ?></section>
-        <section class="item"><?php include_once 'includes/item_elektriciteit.php'; ?></section>
-        <section class="item"><?php include_once 'includes/item-4.php'; ?></section>
-        <section class="item"><?php include_once 'includes/item-5.php'; ?></section>
-        <section class="item"><?php include_once 'includes/item-6.php'; ?></section>
-        <section class="item"><?php include_once 'includes/item-7.php'; ?></section>
-        <section class="item"><?php include_once 'includes/item-8.php'; ?></section>
-        <section class="item"><?php include_once 'includes/item-9.php'; ?></section>
+        <section class="item" id="item-tijd"><?php include_once '../includes/tijd.php'; ?></section>
+        <section class="item" id="item-gas"><?php include_once '../includes/gasverbruik.php'; ?></section>
+        <section class="item" id="item-elektriciteit"><?php include_once '../includes/elektriciteit.php'; ?></section>
+        <section class="item" id="item-actueletemperatuur"><?php include_once '../includes/buiten-temperatuur.php'; ?></section>
+        <section class="item" id="item-weersverwachting"><?php include_once '../includes/weersverwachting.php'; ?></section>
+        <section class="item" id="item-zontijden"><?php include_once '../includes/zontijden.php'; ?></section>
+        <section class="item" id="item-water"><?php include_once '../includes/waterverbruik.php'; ?></section>
+        <section class="item" id="item-opbrengst"><?php include_once '../includes/zonnepanelen.php'; ?></section>
+        <section class="item" id="item-knopjes"><?php include_once '../includes/dark-light-mode.php'; ?></section>
     </main>
     <?php include_once 'footer.php'; ?>
 </body>

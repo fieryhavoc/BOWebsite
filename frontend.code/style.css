@@ -12,8 +12,7 @@ html, body { /* zorg ervoor dat de html en body elementen de volledige hoogte va
     background-color: #69cf67;
     color: white;
     padding: 20px 35px; /* verhoog de padding voor een grotere header */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-    border-radius: 10px;
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1);
     display: grid; 
     place-items: center; 
     position: relative; /* maak de header relatief gepositioneerd zodat het logo absoluut gepositioneerd kan worden binnen de header */
@@ -29,6 +28,7 @@ html, body { /* zorg ervoor dat de html en body elementen de volledige hoogte va
 .header h1 {
     margin: 0;
     font-size: 60px; /* verhoog het lettertype voor een grotere header */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .container { /* gasverbruik sectie */
@@ -42,9 +42,22 @@ html, body { /* zorg ervoor dat de html en body elementen de volledige hoogte va
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.footer {
+    width: 100%;
+    max-width: none; /* zorg ervoor dat de footer de volledige breedte van het scherm inneemt */
+    margin: 0;
+    background-color: #69cf67;
+    color: white;
+    padding: 20px 35px; /* verhoog de padding voor een grotere footer */
+    display: grid; 
+    place-items: center; 
+    position: relative; /* maak de footer relatief gepositioneerd zodat het logo absoluut gepositioneerd kan worden binnen de footer */
+}
+
 .footer h1 {
     margin: 0;
-    font-size: 26px; /* verhoog het lettertype voor een grotere header */
+    font-size: 40px; /* verhoog het lettertype voor een grotere footer */
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1);
     letter-spacing: 0.5px;
     text-align: center;
 }

@@ -10,9 +10,11 @@
 </head>
 
 <body>
-    <footer>
-        <h1>BYE LIL BRO HEHEHEHEHHEHEE</h1>
-    </footer>
+    <div class="footer">
+        <footer>
+            <h1>Mazin, Anouar, Logan Paul</h1>
+        </footer>
+    </div>
 </body>
 
 </html>

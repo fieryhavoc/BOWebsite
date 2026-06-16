@@ -1,11 +1,3 @@
-<!-- deze index.php is gemaakt door Mazin -->
-
-<?php include 'header.php'; ?>
-
-<main>
-</div>
-</main>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DuHu dashboard</title>
+    
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
     <link rel="stylesheet" href="css/style-main.css">
     <link rel="stylesheet" href="css/style-header.css">
     <link rel="stylesheet" href="style.css">
@@ -21,6 +15,7 @@
 
 <body>
     <?php include_once 'header.php'; ?>
+    
     <main class="container">
         <section class="item" id="item-tijd"><?php include_once '../includes/tijd.php'; ?></section>
         <section class="item" id="item-gas"><?php include_once '../includes/gasverbruik.php'; ?></section>
@@ -32,7 +27,10 @@
         <section class="item" id="item-opbrengst"><?php include_once '../includes/zonnepanelen.php'; ?></section>
         <section class="item" id="item-knopjes"><?php include_once '../includes/dark-light-mode.php'; ?></section>
     </main>
+    
     <?php include_once 'footer.php'; ?>
+
+    <script src="frontend.code/grafieken.js"></script>
 </body>
 
 </html>

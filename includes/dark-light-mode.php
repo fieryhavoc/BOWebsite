@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Dark/Light Mode</h1>
-</body>
-</html>
+<div class="dark-light-mode">
+    <button id="toggle-theme">Schakel thema</button>
+</div>

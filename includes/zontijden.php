@@ -6,6 +6,5 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Zontijden</h1>
-</body>
-</html>
+<h2>Zon op / onder tijden</h2>
+<div class="zontijden-info"></div>

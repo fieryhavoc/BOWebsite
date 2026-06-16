@@ -1,0 +1,17 @@
+{
+  "gasverbruik": [
+    { "datum": "Maandag", "verbruik": 4.2 },
+    { "datum": "Dinsdag", "verbruik": 3.8 },
+    { "datum": "Woensdag", "verbruik": 5.1 }
+  ],
+  "elektriciteit": [
+    { "datum": "Maandag", "verbruik": 12.5 },
+    { "datum": "Dinsdag", "verbruik": 14.1 },
+    { "datum": "Woensdag", "verbruik": 13.8 }
+  ],
+  "waterverbruik": [
+    { "datum": "Maandag", "verbruik": 110 },
+    { "datum": "Dinsdag", "verbruik": 95 },
+    { "datum": "Woensdag", "verbruik": 105 }
+  ]
+}

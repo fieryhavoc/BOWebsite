@@ -22,6 +22,7 @@ async function loadDataAndDraw() {
         if (weatherData.temperatuur) drawTemperatureChart(weatherData.temperatuur);
         if (weatherData.weersverwachting) drawForecastChart(weatherData.weersverwachting);
         if (localData.waterverbruik) drawWaterChart(localData.waterverbruik);
+        if (localData.zonnepanelen) drawSolarChart(localData.zonnepanelen);
     } catch (err) {
         console.error('Fout bij laden van lokale of API-data:', err);
     }
@@ -112,4 +113,55 @@ function drawWaterChart(records) {
 
     const chart = new google.visualization.ColumnChart(el);
     chart.draw(dt, options);
+}
+// ===================== ZONNEPANELEN =====================
+function drawSolarChart(records) {
+        const container = document.querySelector('.zonnepanelen-info');
+        if (!container) { console.warn('zonnepanelen-info container not found'); return; }
+        // create chart div if not present
+        let chartEl = document.getElementById('zonnepanelen_chart_div');
+        if (!chartEl) {
+                chartEl = document.createElement('div');
+                chartEl.id = 'zonnepanelen_chart_div';
+                chartEl.style.width = '100%';
+                chartEl.style.height = '320px';
+                container.appendChild(chartEl);
+        }
+
+        const dt = new google.visualization.DataTable();
+        dt.addColumn('string', 'Dag');
+        dt.addColumn('number', 'kWh');
+
+        records.forEach(r => {
+                let label = '';
+                let value = NaN;
+                if (typeof r === 'string' || typeof r === 'number') {
+                        label = String(r);
+                        value = 0;
+                } else if (Array.isArray(r)) {
+                        label = String(r[0]);
+                        value = Number(r[1]);
+                } else if (typeof r === 'object' && r !== null) {
+                        label = r.datum || r.dag || r.date || r.name || '';
+                        if ('opbrengst' in r) value = Number(r.opbrengst);
+                        else if ('kwh' in r) value = Number(r.kwh);
+                        else if ('value' in r) value = Number(r.value);
+                        else if ('verbruik' in r) value = Number(r.verbruik);
+                        else {
+                                for (const k in r) {
+                                        if (['datum','dag','date','name'].includes(k)) continue;
+                                        const n = Number(r[k]);
+                                        if (!isNaN(n)) { value = n; break; }
+                                }
+                        }
+                }
+                dt.addRow([label || '', isNaN(value) ? 0 : value]);
+        });
+
+        const options = {
+                title: 'Zonnepanelen opbrengst (kWh)'
+        };
+
+        const chart = new google.visualization.ColumnChart(document.getElementById('zonnepanelen_chart_div'));
+        chart.draw(dt, options);
 }

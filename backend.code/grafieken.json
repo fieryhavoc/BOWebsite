@@ -14,11 +14,7 @@
     { "datum": "Dinsdag", "verbruik": 95 },
     { "datum": "Woensdag", "verbruik": 105 }
   ],
-<<<<<<< HEAD
   "zonnepanelen": [
-=======
-"zonnepanelen": [
->>>>>>> 37ee189708b8e8858da3c10638007e335f38e814
     { "datum": "Maandag", "opbrengst": 8.5 },
     { "datum": "Dinsdag", "opbrengst": 9.2 },
     { "datum": "Woensdag", "opbrengst": 7.8 }

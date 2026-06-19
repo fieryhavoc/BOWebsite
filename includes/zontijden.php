@@ -76,7 +76,6 @@ if (isset($_GET['api']) && $_GET['api'] === 'zontijden') {
 ?>
 
 <h2>Zon op / onder tijden</h2>
-<<<<<<< HEAD
 <div class="zontijden-info">
     <div class="zontijden-tijd">Huidige tijd: <span id="zontijden-nu">--:--:--</span></div>
     <div class="zontijden-opgang">Zonsopgang: <span id="zontijden-opgang">--:--</span></div>
@@ -84,21 +83,6 @@ if (isset($_GET['api']) && $_GET['api'] === 'zontijden') {
     <div class="zontijden-lengte">Daglengte: <span id="zontijden-lengte">--:--</span></div>
 </div>
     <div class="zontijden-lengte">Daglengte: <span id="zontijden-lengte">--:--</span></div>
-=======
-<?php
-date_default_timezone_set('Europe/Amsterdam');
-$date = '2026-05-19';
-$timestamp = strtotime($date);
-// Default coordinates (Amsterdam). Change $lat/$lon as needed.
-$lat = 52.370216;
-$lon = 4.895168;
-$suninfo = date_sun_info($timestamp, $lat, $lon);
-$sunrise = date('H:i', $suninfo['sunrise']);
-$sunset = date('H:i', $suninfo['sunset']);
-?>
-
-<div class="zontijden-info">
-    <p>Zonsopgang: <?php echo htmlspecialchars($sunrise, ENT_QUOTES, 'UTF-8'); ?></p>
-    <p>Zonsondergang: <?php echo htmlspecialchars($sunset, ENT_QUOTES, 'UTF-8'); ?></p>
->>>>>>> 37ee189708b8e8858da3c10638007e335f38e814
 </div>
+
+/* logan /

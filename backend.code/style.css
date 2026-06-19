@@ -263,7 +263,6 @@ body.dark-theme a {
     align-items: center;
 }
 
-<<<<<<< HEAD
 #toggle-theme {
     background: linear-gradient(135deg, #52b788 0%, #40916c 100%);
     color: #fff;
@@ -377,30 +376,3 @@ body.dark-theme #toggle-theme:hover {
         display: none;
     }
 }
-=======
-/* Switch from light to dark and dark to light mode (Made by Logan) */
-html, body {
-    transition: background-color .25s ease, color .25s ease;
-}
-
-body.dark-theme {
-    background-color: #000;
-    color: #fff;
-}
-
-body.dark-theme .header,
-body.dark-theme .footer,
-body.dark-theme .container,
-body.dark-theme .item {
-    background-color: #111;
-    color: #fff;
-}
-
-body.dark-theme .header, body.dark-theme .footer {
-    background-color: #222;
-}
-
-body.dark-theme a {
-    color: #9cf;
-}
->>>>>>> 37ee189708b8e8858da3c10638007e335f38e814

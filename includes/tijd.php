@@ -1,11 +1,5 @@
 <?php
-/**
- * Tijd Module
- * API endpoint + HTML display voor datum/tijd
- */
-
-// API endpoint voor JSON datum/tijd
-if ($_GET['json'] === '1') {
+if (isset($_GET['json']) && $_GET['json'] === '1') {
     header('Content-Type: application/json; charset=utf-8');
     
     try {
@@ -29,3 +23,5 @@ if ($_GET['json'] === '1') {
 
 <h2>Datum / Tijd</h2>
 <div class="tijd-info"></div>
+
+/* anouar en mazin /

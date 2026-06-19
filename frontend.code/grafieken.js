@@ -29,7 +29,6 @@ async function laadEnTekendataEnGrafieken() {
             return;
         }
 
-<<<<<<< HEAD
         const lokalData = await lokalResponse.json();
 
         // Teken alle grafieken
@@ -41,16 +40,6 @@ async function laadEnTekendataEnGrafieken() {
         tekenZonnepanelenGrafiek(lokalData.zonnepanelen);
     } catch (fout) {
         console.error('Dashboard laad fout:', fout);
-=======
-        drawGasChart(localData.gasverbruik);
-        drawElectricityChart(localData.elektriciteit);
-        if (weatherData.temperatuur) drawTemperatureChart(weatherData.temperatuur);
-        if (weatherData.weersverwachting) drawForecastChart(weatherData.weersverwachting);
-        if (localData.waterverbruik) drawWaterChart(localData.waterverbruik);
-        if (localData.zonnepanelen) drawSolarChart(localData.zonnepanelen);
-    } catch (err) {
-        console.error('Fout bij laden van lokale of API-data:', err);
->>>>>>> 37ee189708b8e8858da3c10638007e335f38e814
     }
 }
 

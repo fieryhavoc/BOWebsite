@@ -1,3 +1,2 @@
-<h2>Zonnepaneel informatie</h2>
-<div id="zonnepanelen_chart_div"></div>
+<h2>Zonnepanelen</h2>
 <div class="zonnepanelen-info"></div>

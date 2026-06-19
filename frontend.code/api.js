@@ -71,6 +71,7 @@ function formatDagNaam(datumString) {
     }
 }
 
+<<<<<<< HEAD
 // ========== ZONTIJDEN API ==========
 
 let zontijdenUpdateInterval = null;
@@ -152,3 +153,5 @@ function stopZontijdenUpdates() {
 // Start zontijden wanneer DOM geladen is
 document.addEventListener('DOMContentLoaded', startZontijdenUpdates);
 
+=======
+>>>>>>> 37ee189708b8e8858da3c10638007e335f38e814

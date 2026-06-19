@@ -1,6 +1,7 @@
-<!-- footer fragment - alleen de footer markup, geen <html>/<head>/<body> -->
-<div class="footer">
-    <footer>
+<!-- DuHu Dashboard Footer -->
+<footer class="footer" role="contentinfo">
+    <div>
         <h1>Mazin, Anouar, Logan Paul</h1>
-    </footer>
-</div>
+        <p>&copy; 2026 All rights reserved.</p>
+    </div>
+</footer>

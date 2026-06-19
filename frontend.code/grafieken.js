@@ -1,115 +1,281 @@
-// Heldere, goed gedocumenteerde Google Charts implementatie
-google.charts.load('current', { packages: ['corechart'] });
-google.charts.setOnLoadCallback(initCharts);
+/**
+ * DuHu Dashboard - Grafieken Module
+ * Beheert data-fetching en grafiek rendering
+ */
 
-function initCharts() {
-    // Grafieken opbouwen nadat Google Charts geladen is
-    loadDataAndDraw();
+// Google Charts configuratie
+google.charts.load('current', { packages: ['corechart'] });
+google.charts.setOnLoadCallback(startDashboard);
+
+// Dashboard initialisatie
+function startDashboard() {
+    laadEnTekendataEnGrafieken();
+    startTijdPolling();
 }
 
-async function loadDataAndDraw() {
+// Haal alle data parallel op en teken grafieken
+async function laadEnTekendataEnGrafieken() {
     try {
-        const [localResponse, weatherData] = await Promise.all([
-            fetch('grafieken.json'),
-            fetchWeatherData()
+        const [lokalResponse, weerData] = await Promise.all([
+            fetch('grafieken.json').catch(e => {
+                console.error('Fout bij ophalen grafieken.json:', e);
+                return { ok: false };
+            }),
+            haalWeerData()
         ]);
 
-        if (!localResponse.ok) throw new Error('Netwerk fout: ' + localResponse.status);
-        const localData = await localResponse.json();
+        if (!lokalResponse.ok) {
+            console.error('Kan grafieken.json niet laden');
+            return;
+        }
 
-        drawGasChart(localData.gasverbruik);
-        drawElectricityChart(localData.elektriciteit);
-        if (weatherData.temperatuur) drawTemperatureChart(weatherData.temperatuur);
-        if (weatherData.weersverwachting) drawForecastChart(weatherData.weersverwachting);
-        if (localData.waterverbruik) drawWaterChart(localData.waterverbruik);
-    } catch (err) {
-        console.error('Fout bij laden van lokale of API-data:', err);
+        const lokalData = await lokalResponse.json();
+
+        // Teken alle grafieken
+        tekenGasGrafiek(lokalData.gasverbruik);
+        tekenElektriciteitGrafiek(lokalData.elektriciteit);
+        tekenTemperatuurGrafiek(weerData.temperatuur);
+        tekenWeersverwachtingGrafiek(weerData.weersverwachting);
+        tekenWaterGrafiek(lokalData.waterverbruik);
+        tekenZonnepanelenGrafiek(lokalData.zonnepanelen);
+    } catch (fout) {
+        console.error('Dashboard laad fout:', fout);
     }
 }
 
-// ===================== GRAFIEKEN FUNCTIES =====================
-
-function drawGasChart(records) {
-    const dt = new google.visualization.DataTable();
-    dt.addColumn('string', 'Dag');
-    dt.addColumn('number', 'm3');
-
-    records.forEach(r => dt.addRow([r.datum, Number(r.verbruik)]));
-
-    const options = { title: 'Gasverbruik (m3)' };
-    const el = document.getElementById('gas_chart_div');
-    if (!el) { console.warn('gas_chart_div niet gevonden'); return; }
-
-    const chart = new google.visualization.ColumnChart(el);
-    chart.draw(dt, options);
+// Utility functie voor grafiek tabel opzet
+function maakGrafiektabel(kolommen, gegevens, mapper) {
+    const tabel = new google.visualization.DataTable();
+    
+    kolommen.forEach(kolom => {
+        tabel.addColumn(kolom.type, kolom.label);
+    });
+    
+    gegevens.forEach(item => {
+        tabel.addRow(mapper(item));
+    });
+    
+    return tabel;
 }
 
-function drawElectricityChart(records) {
-    const dt = new google.visualization.DataTable();
-    dt.addColumn('string', 'Dag');
-    dt.addColumn('number', 'kWh');
-
-    records.forEach(r => dt.addRow([r.datum, Number(r.verbruik)]));
-
-    const options = { title: 'Elektriciteit (kWh)' };
-    const el = document.getElementById('stroom_chart_div');
-    if (!el) { console.warn('stroom_chart_div niet gevonden'); return; }
-
-    const chart = new google.visualization.ColumnChart(el);
-    chart.draw(dt, options);
+// Utility functie voor veilig element ophalen
+function getElementVeilig(id) {
+    const element = document.getElementById(id);
+    if (!element) {
+        console.warn(`Element met ID '${id}' niet gevonden`);
+    }
+    return element;
 }
 
-function drawTemperatureChart(records) {
-    const dt = new google.visualization.DataTable();
-    dt.addColumn('string', 'Dag');
-    dt.addColumn('number', 'Binnen (°C)');
-    dt.addColumn('number', 'Buiten (°C)');
+// Gasverbruik grafiek
+function tekenGasGrafiek(gegevens) {
+    if (!gegevens || gegevens.length === 0) return;
+    
+    const tabel = maakGrafiektabel(
+        [{ type: 'string', label: 'Dag' }, { type: 'number', label: 'm³' }],
+        gegevens,
+        r => [r.datum, Number(r.verbruik)]
+    );
 
-    records.forEach(r => dt.addRow([r.dag, Number(r.binnen), Number(r.buiten)]));
+    const opties = {
+        title: 'Gasverbruik (m³)',
+        legend: 'none',
+        hAxis: { textStyle: { fontSize: 12 } }
+    };
+    
+    const element = getElementVeilig('gas_chart_div');
+    if (element) {
+        new google.visualization.ColumnChart(element).draw(tabel, opties);
+    }
+}
 
-    const options = {
+// Elektriciteit grafiek
+function tekenElektriciteitGrafiek(gegevens) {
+    if (!gegevens || gegevens.length === 0) return;
+    
+    const tabel = maakGrafiektabel(
+        [{ type: 'string', label: 'Dag' }, { type: 'number', label: 'kWh' }],
+        gegevens,
+        r => [r.datum, Number(r.verbruik)]
+    );
+
+    const opties = {
+        title: 'Elektriciteit (kWh)',
+        legend: 'none',
+        hAxis: { textStyle: { fontSize: 12 } }
+    };
+    
+    const element = getElementVeilig('stroom_chart_div');
+    if (element) {
+        new google.visualization.ColumnChart(element).draw(tabel, opties);
+    }
+}
+
+// Temperatuur grafiek met info
+function tekenTemperatuurGrafiek(gegevens) {
+    if (!gegevens || gegevens.length === 0) return;
+    
+    const tabel = maakGrafiektabel(
+        [
+            { type: 'string', label: 'Dag' },
+            { type: 'number', label: 'Binnen (°C)' },
+            { type: 'number', label: 'Buiten (°C)' }
+        ],
+        gegevens,
+        r => [r.dag, Number(r.binnen), Number(r.buiten)]
+    );
+
+    const opties = {
         title: 'Binnen en buiten temperatuur (°C)',
         curveType: 'function',
-        legend: { position: 'bottom' }
+        legend: { position: 'bottom' },
+        hAxis: { textStyle: { fontSize: 12 } }
     };
-    const el = document.getElementById('temperatuur_chart_div');
-    if (!el) { console.warn('temperatuur_chart_div niet gevonden'); return; }
-
-    const chart = new google.visualization.LineChart(el);
-    chart.draw(dt, options);
+    
+    const element = getElementVeilig('temperatuur_chart_div');
+    if (element) {
+        new google.visualization.LineChart(element).draw(tabel, opties);
+    }
+    
+    // Toon info onder grafiek
+    toonTemperatuurInfo(gegevens);
 }
 
-function drawForecastChart(records) {
-    const dt = new google.visualization.DataTable();
-    dt.addColumn('string', 'Dag');
-    dt.addColumn('number', 'Binnen (°C)');
-    dt.addColumn('number', 'Buiten (°C)');
+// Weersverwachting grafiek met info
+function tekenWeersverwachtingGrafiek(gegevens) {
+    if (!gegevens || gegevens.length === 0) return;
+    
+    const tabel = maakGrafiektabel(
+        [
+            { type: 'string', label: 'Dag' },
+            { type: 'number', label: 'Binnen (°C)' },
+            { type: 'number', label: 'Buiten (°C)' }
+        ],
+        gegevens,
+        r => [r.dag, Number(r.binnen), Number(r.buiten)]
+    );
 
-    records.forEach(r => dt.addRow([r.dag, Number(r.binnen), Number(r.buiten)]));
-
-    const options = {
-        title: 'Weersverwachting - binnen en buiten (°C)',
+    const opties = {
+        title: 'Weersverwachting (°C)',
         curveType: 'function',
-        legend: { position: 'bottom' }
+        legend: { position: 'bottom' },
+        hAxis: { textStyle: { fontSize: 12 } }
     };
-    const el = document.getElementById('weersverwachting_chart_div');
-    if (!el) { console.warn('weersverwachting_chart_div niet gevonden'); return; }
-
-    const chart = new google.visualization.LineChart(el);
-    chart.draw(dt, options);
+    
+    const element = getElementVeilig('weersverwachting_chart_div');
+    if (element) {
+        new google.visualization.LineChart(element).draw(tabel, opties);
+    }
+    
+    // Toon info onder grafiek
+    toonWeersverwachtingInfo(gegevens);
 }
 
-function drawWaterChart(records) {
-    const dt = new google.visualization.DataTable();
-    dt.addColumn('string', 'Dag');
-    dt.addColumn('number', 'Liter');
+// Waterverbruik grafiek
+function tekenWaterGrafiek(gegevens) {
+    if (!gegevens || gegevens.length === 0) return;
+    
+    const tabel = maakGrafiektabel(
+        [{ type: 'string', label: 'Dag' }, { type: 'number', label: 'Liter' }],
+        gegevens,
+        r => [r.datum, Number(r.verbruik)]
+    );
 
-    records.forEach(r => dt.addRow([r.datum, Number(r.verbruik)]));
+    const opties = {
+        title: 'Waterverbruik (L)',
+        legend: 'none',
+        hAxis: { textStyle: { fontSize: 12 } }
+    };
+    
+    const element = getElementVeilig('water_chart_div');
+    if (element) {
+        new google.visualization.ColumnChart(element).draw(tabel, opties);
+    }
+}
 
-    const options = { title: 'Waterverbruik (L)' };
-    const el = document.getElementById('water_chart_div');
-    if (!el) { console.warn('water_chart_div niet gevonden'); return; }
+// Zonnepanelen grafiek met info
+function tekenZonnepanelenGrafiek(gegevens) {
+    if (!gegevens || gegevens.length === 0) return;
+    
+    const tabel = maakGrafiektabel(
+        [{ type: 'string', label: 'Dag' }, { type: 'number', label: 'Opbrengst (kWh)' }],
+        gegevens,
+        r => [r.datum, Number(r.opbrengst)]
+    );
 
-    const chart = new google.visualization.ColumnChart(el);
-    chart.draw(dt, options);
+    const opties = {
+        title: 'Zonnepanelen opbrengst (kWh)',
+        legend: 'none',
+        hAxis: { textStyle: { fontSize: 12 } }
+    };
+    
+    const element = getElementVeilig('zonnepanelen_chart_div');
+    if (element) {
+        new google.visualization.ColumnChart(element).draw(tabel, opties);
+    }
+    
+    // Toon info onder grafiek
+    toonZonnepanelenInfo(gegevens);
+}
+
+// Info functies - tonen data onder grafieken
+function toonTemperatuurInfo(gegevens) {
+    if (!gegevens || gegevens.length === 0) return;
+    const huidig = gegevens[0];
+    const element = document.querySelector('.temperatuur-info');
+    if (element) {
+        element.textContent = `Vandaag: Binnen ${huidig.binnen}°C | Buiten ${huidig.buiten}°C`;
+    }
+}
+
+function toonWeersverwachtingInfo(gegevens) {
+    if (!gegevens || gegevens.length === 0) return;
+    const huidig = gegevens[0];
+    const element = document.querySelector('.weersverwachting-info');
+    if (element) {
+        element.textContent = `Verwachting morgen: Binnen ${huidig.binnen}°C | Buiten ${huidig.buiten}°C`;
+    }
+}
+
+function toonZonnepanelenInfo(gegevens) {
+    if (!gegevens || gegevens.length === 0) return;
+    const totaal = gegevens.reduce((sum, r) => sum + Number(r.opbrengst), 0);
+    const gemiddelde = (totaal / gegevens.length).toFixed(1);
+    const element = document.querySelector('.zonnepanelen-info');
+    if (element) {
+        element.textContent = `Totaal deze week: ${totaal.toFixed(1)} kWh | Gemiddeld: ${gemiddelde} kWh/dag`;
+    }
+}
+
+// Tijd updates
+let tijdUpdateInterval = null;
+
+function startTijdPolling() {
+    updateTijdDisplay();
+    if (tijdUpdateInterval) clearInterval(tijdUpdateInterval);
+    tijdUpdateInterval = setInterval(updateTijdDisplay, 1000);
+}
+
+function updateTijdDisplay() {
+    try {
+        const nu = new Date();
+        const opties = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZone: 'Europe/Amsterdam'
+        };
+        
+        const geformateerd = new Intl.DateTimeFormat('nl-NL', opties).format(nu);
+        const container = document.querySelector('.tijd-info');
+        if (container) {
+            container.textContent = geformateerd;
+        }
+    } catch (e) {
+        console.error('Fout bij update tijd display:', e);
+    }
 }

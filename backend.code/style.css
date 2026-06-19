@@ -85,3 +85,29 @@ html, body { /* zorg ervoor dat de html en body elementen de volledige hoogte va
     justify-content: center;
     align-items: center;
 }
+
+/* Switch from light to dark and dark to light mode (Made by Logan) */
+html, body {
+    transition: background-color .25s ease, color .25s ease;
+}
+
+body.dark-theme {
+    background-color: #000;
+    color: #fff;
+}
+
+body.dark-theme .header,
+body.dark-theme .footer,
+body.dark-theme .container,
+body.dark-theme .item {
+    background-color: #111;
+    color: #fff;
+}
+
+body.dark-theme .header, body.dark-theme .footer {
+    background-color: #222;
+}
+
+body.dark-theme a {
+    color: #9cf;
+}
